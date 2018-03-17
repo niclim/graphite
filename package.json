@@ -1,0 +1,29 @@
+{
+  "name": "word-reader",
+  "version": "1.0.0",
+  "main": "./server/index.js",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "cd client && yarn install",
+    "server": "node ./server/index.js",
+    "server:dev": "nodemon ./server/index.js",
+    "build": "cd client && yarn run build",
+    "build:watch": "cd client && yarn run dev",
+    "lint": "standard --fix | snazzy || true",
+    "start": "npm run build; npm run server"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2",
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "/public/static/"
+    ]
+  }
+}
