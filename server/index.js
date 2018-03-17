@@ -14,7 +14,8 @@ app
   .use(express.static(staticPath))
 
 // Routes
-app.use('/', router)
+app
+  .use('/', router)
 
 app
   .get('*', (req, res) => {
