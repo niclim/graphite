@@ -1,3 +1,4 @@
 node_modules
 public/static
 public/index
+public/app.js

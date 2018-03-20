@@ -1,19 +1,24 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <site-header />
+    <router-view />
   </div>
 </template>
 
 <script>
+import SiteHeader from '@/components/SiteHeader'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: { SiteHeader }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', 'Avenir', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

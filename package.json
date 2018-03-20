@@ -8,7 +8,7 @@
     "server": "node ./server/index.js",
     "server:dev": "nodemon ./server/index.js",
     "build": "cd client && yarn run build",
-    "build:watch": "cd client && yarn run dev",
+    "build:dev": "cd client && yarn run dev",
     "lint": "standard --fix | snazzy || true",
     "start": "npm run build; npm run server"
   },
