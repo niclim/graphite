@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Find out more about yourself</h1>
+    <h1>Enter a reddit username</h1>
     <form @submit="submit">
       <input type="text" v-model="input" />
       <button type="submit">Lets go!</button>

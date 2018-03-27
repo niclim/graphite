@@ -7,16 +7,21 @@
 
 <script>
 import axios from 'axios'
-
+// This needs to handle error routing and stuff
 export default {
   name: 'results',
   mounted: function() {
-    this.fetchResults()
+    if (this.$route.query.user) {
+      this.fetchResults()
+    } else {
+      this.error = 'No user found'
+    }
   },
   data () {
     return {
       loading: true,
-      data: null
+      data: null,
+      error: null
     }
   },
   methods: {
