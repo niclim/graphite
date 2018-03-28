@@ -2,14 +2,16 @@
   <div>
     <h1>Enter a reddit username</h1>
     <form @submit="submit">
-      <input type="text" v-model="input" />
+      <input type="text" v-model="input" @blur="blur" />
       <button type="submit">Lets go!</button>
     </form>
-    <p class="error" v-if="error">{{ error }}</p>
+    <p class="error" v-if="touched && error">{{ error }}</p>
   </div>
 </template>
 
 <script>
+import { validateRedditUser } from '../../../common/validators'
+
 export default {
   name: 'HelloWorld',
   data () {
@@ -32,14 +34,18 @@ export default {
     },
     validate: function (value) {
       let message = ''
+      if (!validateRedditUser(value)) { message = 'Please enter a valid reddit username (3-20 characters alphanumeric, - or _ )' }
       if (value === '') { message = 'Please enter a value' }
       return message
+    },
+    blur: function(e) {
+      this.error = this.validate(this.input)
+      this.touched = true
     }
   },
   watch: {
     input: function (newInput, oldInput) {
       this.error = this.validate(newInput)
-      this.touched = true
     }
   }
 }

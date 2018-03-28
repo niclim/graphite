@@ -6,8 +6,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { fetchRedditUserData } from '../api'
 // This needs to handle error routing and stuff
+// count words
+// graph words vs karma and add time of day labels etc (based on utc?)
+// average timing in day post
 export default {
   name: 'results',
   mounted: function() {
@@ -26,8 +29,7 @@ export default {
   },
   methods: {
     fetchResults: async function() {
-      // pull this out into an apis file
-      const data = await axios.get(`/api/${this.$route.query.user}`)
+      const data = await fetchRedditUserData(this.$route.query.user)
       this.data = data
       this.loading = false
     }

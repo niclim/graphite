@@ -1,17 +1,24 @@
 const express = require('express')
-const { getRedditComments } = require('../utils/reddit')
-
+const { getRedditComments, redditMockData } = require('../utils/reddit')
+const { validateRedditUser } = require('../../common/validators')
 const router = express.Router()
 
-router.get('/:user', async (req, res) => {
-  // Check whether we have a valid username
+router.get('/reddit/:user', async (req, res) => {
+  const { user } = req.params
+  if (!validateRedditUser(user)) {
+    // Send error - not a valid reddit user
+    res.json({
+
+    })
+  }
   try {
-    const comments = await getRedditComments(req.params.user, 'hot')
+    // const comments = await getRedditComments(user, 'hot')
+    const comments = await redditMockData()
     res.json({
       comments
     })
   } catch (e) {
-    // send 404 or error
+    // send error no valid user
     res.json({
 
     })
