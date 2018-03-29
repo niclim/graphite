@@ -1,19 +1,18 @@
 <template>
   <div>
     <h1>Results</h1>
-    <p>{{this.$route.query.user}}</p>
+    <p>{{$route.query.user}}</p>
+    <word-frequency v-if="data" :data="data.comments"></word-frequency>
   </div>
 </template>
 
 <script>
 import { fetchRedditUserData } from '../api'
+import WordFrequency from '../components/WordFrequency'
 // This needs to handle error routing and stuff
-// count words
-// graph words vs karma and add time of day labels etc (based on utc?)
-// average timing in day post
 export default {
   name: 'results',
-  mounted: function() {
+  mounted () {
     if (this.$route.query.user) {
       this.fetchResults()
     } else {
@@ -28,18 +27,21 @@ export default {
     }
   },
   methods: {
-    fetchResults: async function() {
-      const data = await fetchRedditUserData(this.$route.query.user)
+    fetchResults: async function () {
+      const { data } = await fetchRedditUserData(this.$route.query.user)
       this.data = data
       this.loading = false
     }
   },
   watch: {
-    $route: function (newRoute, oldRoute) {
+    $route (newRoute, oldRoute) {
       // We probably should check the route to see if only the query parameter changed
       this.loading = true
       this.fetchResults()
     }
+  },
+  components: {
+    WordFrequency
   }
 }
 </script>

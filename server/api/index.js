@@ -14,6 +14,7 @@ router.get('/reddit/:user', async (req, res) => {
   try {
     // const comments = await getRedditComments(user, 'hot')
     const comments = await redditMockData()
+
     res.json({
       comments
     })

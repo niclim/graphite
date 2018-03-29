@@ -11,15 +11,23 @@ const getRedditComments = (user, sort) => {
         // parse comments and get after string from reddit helper
         const res = await redditHelper(user, sort, after, i)
         const { data } = res.data
-        const childrenLength = data.children.length
         comments = comments.concat(data.children)
-        after = data.children[childrenLength - 1].data.name
+        after = data.after
         i++
       }
-      // Map these comments
-      // comments = comments.map(comment => ({
 
-      // }))
+      comments = comments.map(({ data }) => ({
+        score: data.score,
+        ups: data.ups,
+        downs: data.downs,
+        controversiality: data.controversiality,
+        body: data.body,
+        linkTitle: data.link_title,
+        isOriginalPoster: data.link_author === data.author,
+        timestamp: data.created_utc,
+        id: data.id
+      }))
+
       resolve(comments)
     } catch (e) {
       reject(e)
@@ -37,7 +45,7 @@ const redditHelper = (user, sort, after, i) => {
   })
 }
 const redditMockData = () => {
-  return Promise.resolve(mock)
+  return Promise.resolve(mock.data.map((data, i) => ({ ...data, id: i })))
 }
 
 module.exports = {

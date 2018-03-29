@@ -22,7 +22,7 @@ export default {
     }
   },
   methods: {
-    submit: function (e) {
+    submit (e) {
       e.preventDefault()
       const validationMessage = this.validate(this.input)
       if (validationMessage) {
@@ -32,19 +32,19 @@ export default {
         this.$router.push(`/results?user=${this.input}`)
       }
     },
-    validate: function (value) {
+    validate (value) {
       let message = ''
       if (!validateRedditUser(value)) { message = 'Please enter a valid reddit username (3-20 characters alphanumeric, - or _ )' }
       if (value === '') { message = 'Please enter a value' }
       return message
     },
-    blur: function(e) {
+    blur (e) {
       this.error = this.validate(this.input)
       this.touched = true
     }
   },
   watch: {
-    input: function (newInput, oldInput) {
+    input (newInput, oldInput) {
       this.error = this.validate(newInput)
     }
   }
