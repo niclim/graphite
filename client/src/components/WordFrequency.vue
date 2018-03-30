@@ -1,6 +1,6 @@
 <template>
   <svg width="700" height="500">
-    <g>
+    <g style="transform: translate(0, 10px)">
       <circle
         v-for="point in points"
         :key="point.word"
@@ -25,6 +25,7 @@ export default {
   data () {
     return {
       points: [],
+      line: '',
       tooltip: null
     }
   },
@@ -39,7 +40,7 @@ export default {
       this.points = sortedWords.map((d, i) => ({
         r: 3,
         cx: xScale(i),
-        cy: 510 - yScale(d.count),
+        cy: 500 - yScale(d.count),
         word: d.word,
         count: d.count
       }))

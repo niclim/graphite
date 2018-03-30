@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="page-container">
     <h1>Results</h1>
     <p>{{$route.query.user}}</p>
     <word-frequency v-if="data" :data="data.comments"></word-frequency>
+    <post-timeline v-if="data" :data="data.comments"></post-timeline>
   </div>
 </template>
 
 <script>
 import { fetchRedditUserData } from '../api'
 import WordFrequency from '../components/WordFrequency'
+import PostTimeline from '../components/PostTimeline'
 // This needs to handle error routing and stuff
 export default {
   name: 'results',
@@ -27,9 +29,10 @@ export default {
     }
   },
   methods: {
-    fetchResults: async function () {
+    async fetchResults () {
       const { data } = await fetchRedditUserData(this.$route.query.user)
       this.data = data
+      console.log(data)
       this.loading = false
     }
   },
@@ -41,11 +44,14 @@ export default {
     }
   },
   components: {
-    WordFrequency
+    WordFrequency,
+    PostTimeline
   }
 }
 </script>
 
 <style scoped>
-
+  .page-container {
+    padding-bottom: 150px;
+  }
 </style>

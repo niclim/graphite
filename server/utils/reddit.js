@@ -25,7 +25,8 @@ const getRedditComments = (user, sort) => {
         linkTitle: data.link_title,
         isOriginalPoster: data.link_author === data.author,
         timestamp: data.created_utc,
-        id: data.id
+        id: data.id,
+        numComments: data.num_comments
       }))
 
       resolve(comments)
@@ -45,7 +46,7 @@ const redditHelper = (user, sort, after, i) => {
   })
 }
 const redditMockData = () => {
-  return Promise.resolve(mock.data.map((data, i) => ({ ...data, id: i })))
+  return Promise.resolve(mock.data)
 }
 
 module.exports = {
