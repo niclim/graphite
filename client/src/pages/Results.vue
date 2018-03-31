@@ -32,7 +32,7 @@ export default {
     async fetchResults () {
       const { data } = await fetchRedditUserData(this.$route.query.user)
       this.data = data
-      console.log(data)
+
       this.loading = false
     }
   },

@@ -1,15 +1,18 @@
 <template>
   <div>
-    <h1>Enter a reddit username</h1>
-    <form @submit="submit">
-      <input type="text" v-model="input" @blur="blur" />
-      <button type="submit">Lets go!</button>
-    </form>
-    <p class="error" v-if="touched && error">{{ error }}</p>
+    <div class="reddit-container">
+      <h1>Enter a reddit username</h1>
+      <form @submit="submit">
+        <at-input type="text" v-model="input" @blur="blur" />
+        <at-button nativeType="submit">Lets go!</at-button>
+      </form>
+      <p class="error" v-if="touched && error">{{ error }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+import { Input as AtInput, Button as AtButton } from 'at-ui'
 import { validateRedditUser } from '../../../common/validators'
 
 export default {
@@ -47,14 +50,21 @@ export default {
     input (newInput, oldInput) {
       this.error = this.validate(newInput)
     }
+  },
+  components: {
+    AtInput,
+    AtButton
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.reddit-container {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  flex-direction: column;
+  width: 700px;
 }
 
 ul {

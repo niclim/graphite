@@ -1,0 +1,15 @@
+make front page look nice
+add site header
+add loading spinner for results
+add error handling for results page (no valid user, server error, network error)
+add 404 page
+make results page look nice
+make graphs show better information
+make graphs proper sized and calculate their own heights and widths based on props
+add toggle for post history (days vs time)
+add hover to graphs
+add axis for wordfrequency
+
+Extra features
+add subreddit stuff
+add extra analysis to words based on other apis?
