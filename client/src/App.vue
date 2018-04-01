@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <site-header />
-    <router-view />
+    <div id="content">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -23,6 +25,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

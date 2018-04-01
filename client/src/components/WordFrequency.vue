@@ -24,46 +24,43 @@ export default {
   name: 'wordFrequency',
   data () {
     return {
-      points: [],
       line: '',
       tooltip: null
     }
   },
-  mounted () {
-    this.calculatePoints()
-  },
-  methods: {
-    calculatePoints () {
-      const sortedWords = this.countWords()
+  computed: {
+    sortedWords () {
+      const sortedWords = {}
+      this.data.forEach(comment => {
+        const words = comment.body.replace(/[^a-z\s]/gi, '').toLowerCase().trim().split(/\s+/g)
+        words.forEach(word => {
+          if (sortedWords[word]) {
+            sortedWords[word]++
+          } else {
+            sortedWords[word] = 1
+          }
+        })
+      })
+
+      // Convert this object into a sorted array
+      return Object.keys(sortedWords)
+        .map(key => ({ word: key, count: sortedWords[key] }))
+        .sort((a, b) => b.count - a.count)
+    },
+    points () {
+      const sortedWords = this.sortedWords
       const yScale = scalePow().domain([0, sortedWords[0].count]).range([0, 500])
       const xScale = scaleLinear().domain([0, sortedWords.length]).range([10, 700])
-      this.points = sortedWords.map((d, i) => ({
+      return sortedWords.map((d, i) => ({
         r: 3,
         cx: xScale(i),
         cy: 500 - yScale(d.count),
         word: d.word,
         count: d.count
       }))
-    },
-    countWords () {
-      // Count words and store in an object
-      const wordCount = {}
-      this.data.forEach(comment => {
-        const words = comment.body.replace(/[^a-z\s]/gi, '').toLowerCase().trim().split(/\s+/g)
-        words.forEach(word => {
-          if (wordCount[word]) {
-            wordCount[word]++
-          } else {
-            wordCount[word] = 1
-          }
-        })
-      })
-
-      // Convert this object into a sorted array
-      return Object.keys(wordCount)
-        .map(key => ({ word: key, count: wordCount[key] }))
-        .sort((a, b) => b.count - a.count)
-    },
+    }
+  },
+  methods: {
     showTooltip (e, point) {
       this.tooltip = {
         x: point.cx + 20,
@@ -73,11 +70,6 @@ export default {
     },
     hideTooltip () {
       this.tooltip = null
-    }
-  },
-  watch: {
-    data (newVal, oldVal) {
-      this.calculatePoints()
     }
   },
   props: ['data']

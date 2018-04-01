@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <div class="reddit-container">
       <h1>Enter a reddit username</h1>
       <form @submit="submit">
@@ -59,6 +59,10 @@ export default {
 </script>
 
 <style scoped>
+.page {
+  padding-bottom: 200px;
+}
+
 .reddit-container {
   display: flex;
   margin: auto;
