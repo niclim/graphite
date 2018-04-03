@@ -1,5 +1,6 @@
 const axios = require('axios')
 const mock = require('./mockdata')
+
 const getRedditComments = (user, sort) => {
   // This needs to chain api calls because of how the reddit api is exposed
   return new Promise(async (resolve, reject) => {
@@ -14,6 +15,8 @@ const getRedditComments = (user, sort) => {
         comments = comments.concat(data.children)
         after = data.after
         i++
+        // Stops if this is the last comment
+        if (data.children.length > 25) { break }
       }
 
       comments = comments.map(({ data }) => ({
@@ -39,7 +42,7 @@ const getRedditComments = (user, sort) => {
 const redditHelper = (user, sort, after, i) => {
   return axios({
     method: 'get',
-    url: `https://www.reddit.com/user/${user}/comments.json?raw_json=1&sort=${sort}${after ? `$after=${after}` : ''}&count=${i * 25}`,
+    url: `https://www.reddit.com/user/${user}/comments.json?raw_json=1&sort=${sort}${after ? `&after=${after}` : ''}&count=${i * 25}`,
     headers: {
       'User-Agent': 'node:graphite:v-0.0.1'
     }
