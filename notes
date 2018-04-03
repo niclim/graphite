@@ -1,12 +1,15 @@
-add error handling for results page (no valid user, server error, network error (i.e. reddit is down))
-make results page look nice
-make graphs show better information
-make graphs proper sized and calculate their own heights and widths based on props
-add hover to graphs (creating a tooltip component)
-add axis for wordfrequency
-Fix reddit call to properly chain to next comment
-add caching to server api call - assume that in the last 1 hours if the user has been checked, we don't need to recall
-make mobile responsive
+graphs: 2
+  make graphs show better information
+  make graphs proper sized and calculate their own heights and widths based on props
+  add hover to graphs
+  add axis for wordfrequency
+styling: 3
+  make results page look nice
+  make mobile responsive
+functionality: 4
+  add error handling for results page (no valid user, server error, network error (i.e. reddit is down))
+server: 5
+  add caching to server api call - assume that in the last 1 hours if the user has been checked, we don't need to recall
 
 Extra features
 add subreddit stuff

@@ -10,15 +10,22 @@
         @mouseover="showTooltip($event, point)"
         @mouseout="hideTooltip"
       />
-      <text v-if="tooltip" :x="tooltip.x" :y="tooltip.y">
-        {{tooltip.text}}
-      </text>
+      <tooltip
+        v-if="tooltip"
+        :x="tooltip.x"
+        :y="tooltip.y"
+        :perpLength="50"
+        :paraLength="30"
+      >
+        <text>{{tooltip.text}}</text>
+      </tooltip>
     </g>
   </svg>
 </template>
 
 <script>
 import { scaleLinear, scalePow } from 'd3-scale'
+import Tooltip from './Tooltip'
 
 export default {
   name: 'wordFrequency',
@@ -63,8 +70,8 @@ export default {
   methods: {
     showTooltip (e, point) {
       this.tooltip = {
-        x: point.cx + 20,
-        y: point.cy + 20,
+        x: point.cx,
+        y: point.cy,
         text: `${point.word}: ${point.count}`
       }
     },
@@ -72,7 +79,10 @@ export default {
       this.tooltip = null
     }
   },
-  props: ['data']
+  props: ['data'],
+  components: {
+    Tooltip
+  }
 }
 </script>
 

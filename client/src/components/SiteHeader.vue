@@ -69,7 +69,7 @@ ul {
 }
 
 #logo-text {
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
 }
 </style>
