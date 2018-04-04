@@ -6,7 +6,7 @@ const getDayFromTimestamp = timestamp => (new Date(timestamp * 1000).getDay() + 
 const timestampToHr = t => {
   const hrs = Math.floor(t / (secInDay / 24))
   let min = Math.floor((t % 3600) / 60)
-  if (min < 10) { min = `${min}0` }
+  if (min < 10) { min = `0${min}` }
   return `${hrs}:${min}`
 }
 

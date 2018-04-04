@@ -9,7 +9,12 @@
       <div v-else-if="!error && data" key="main">
         <div>
           <h2>Word Frequency</h2>
-          <word-frequency :data="data.comments" />
+          <word-frequency
+            :data="data.comments"
+            :width="700"
+            :height="500"
+            :padding="100"
+          />
         </div>
         <div>
           <h2>Posts vs Time</h2>
@@ -18,7 +23,13 @@
             <at-switch v-model="postDay" @change="changeToggle" />
             <span>Days in the week</span>
           </div>
-          <post-timeline :data="data.comments" :setting="postDisplay" />
+          <post-timeline
+            :data="data.comments"
+            :setting="postDisplay"
+            :width="700"
+            :height="450"
+            :padding="100" 
+          />
         </div>
       </div>
       <div v-else key="error">

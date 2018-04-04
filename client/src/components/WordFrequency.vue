@@ -1,31 +1,26 @@
 <template>
-  <svg width="700" height="500">
-    <g style="transform: translate(0, 10px)">
-      <circle
-        v-for="point in points"
-        :key="point.word"
-        :r="point.r"
-        :cx="point.cx"
-        :cy="point.cy"
-        @mouseover="showTooltip($event, point)"
-        @mouseout="hideTooltip"
-      />
-      <tooltip
-        v-if="tooltip"
-        :x="tooltip.x"
-        :y="tooltip.y"
-        :perpLength="50"
-        :paraLength="30"
-      >
-        <text>{{tooltip.text}}</text>
-      </tooltip>
-    </g>
-  </svg>
+  <div class="graph-container">
+    <svg :width="outerWidth" :height="outerHeight">
+      <g :transform="`translate(${padding}, ${padding})`">
+        <circle
+          v-for="point in points"
+          :key="point.word"
+          :r="point.r"
+          :cx="point.cx"
+          :cy="point.cy"
+          @mouseover="showTooltip($event, point)"
+          @mouseout="hideTooltip"
+        />
+      </g>
+    </svg>
+    <div v-if="tooltip" :style="`position: absolute; left: ${tooltip.x}px; top: ${tooltip.y}px;`" class="tooltip">
+      <p>{{tooltip.text}}</p>
+    </div>
+  </div>
 </template>
 
 <script>
 import { scaleLinear, scalePow } from 'd3-scale'
-import Tooltip from './Tooltip'
 
 export default {
   name: 'wordFrequency',
@@ -56,22 +51,28 @@ export default {
     },
     points () {
       const sortedWords = this.sortedWords
-      const yScale = scalePow().domain([0, sortedWords[0].count]).range([0, 500])
-      const xScale = scaleLinear().domain([0, sortedWords.length]).range([10, 700])
+      const yScale = scalePow().domain([0, sortedWords[0].count]).range([0, this.height])
+      const xScale = scaleLinear().domain([0, sortedWords.length]).range([0, this.width])
       return sortedWords.map((d, i) => ({
         r: 3,
         cx: xScale(i),
-        cy: 500 - yScale(d.count),
+        cy: this.height - yScale(d.count),
         word: d.word,
         count: d.count
       }))
+    },
+    outerWidth () {
+      return this.padding * 2 + this.width
+    },
+    outerHeight () {
+      return this.padding * 2 + this.height
     }
   },
   methods: {
     showTooltip (e, point) {
       this.tooltip = {
-        x: point.cx,
-        y: point.cy,
+        x: point.cx + this.padding + 10,
+        y: point.cy + this.padding - 15,
         text: `${point.word}: ${point.count}`
       }
     },
@@ -79,13 +80,22 @@ export default {
       this.tooltip = null
     }
   },
-  props: ['data'],
-  components: {
-    Tooltip
-  }
+  props: ['data', 'width', 'height', 'padding']
 }
 </script>
 
 <style scoped>
+.graph-container {
+  position: relative;
+}
 
+.tooltip {
+  background-color: #eee;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 5px;
+}
 </style>
