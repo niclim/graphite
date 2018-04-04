@@ -1,15 +1,33 @@
 const axios = require('axios')
 const mock = require('./mockdata')
+const { withinTime } = require('../../common/time')
 
-const getRedditComments = (user, sort) => {
+const redditCache = {}
+
+// Clears out stale cache
+// eslint-disable-next-line
+const interval = setInterval(() => {
+  for (const key in redditCache) {
+    if (!withinTime(redditCache[key].time, 1000 * 60 * 60)) {
+      delete redditCache[key]
+    }
+  }
+}, 1000 * 60 * 30) // Every 30 minutes
+
+const getRedditComments = (user, sort = 'hot') => {
   // This needs to chain api calls because of how the reddit api is exposed
   return new Promise(async (resolve, reject) => {
+    if (redditCache[user] && withinTime(redditCache[user].time, 1000 * 60 * 60)) {
+      resolve(redditCache[user].data)
+    }
+
     try {
       let i = 0
       let after = null
       let comments = []
+
+      // Because the request need to be in series - limit to 5 so it doesn't take forever
       while (i < 5) {
-        // parse comments and get after string from reddit helper
         const res = await redditHelper(user, sort, after, i)
         const { data } = res.data
         comments = comments.concat(data.children)
@@ -31,6 +49,12 @@ const getRedditComments = (user, sort) => {
         id: data.id,
         numComments: data.num_comments
       }))
+
+      // Store data in cache
+      redditCache[user] = {
+        time: Date.now(),
+        data: comments
+      }
 
       resolve(comments)
     } catch (e) {
