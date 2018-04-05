@@ -13,10 +13,18 @@
             @mouseout="hideTooltip"
           />
         </g>
-        <g
-          :transform="`translate(0, ${height})`"
-          v-axis="xAxis"
-        />
+        <g :transform="`translate(0, ${height})`">
+          <g
+            v-axis="xAxis"
+          />
+          <text :transform="`translate(${width / 2 - 15}, 50)`">{{setting === 'days' ? 'Day (PST)' : 'Time (PST)'}}</text>
+        </g>
+        <g :transform="`translate(-10, 0)`">
+          <g
+            v-axis="yAxis"
+          />
+          <text :transform="`rotate(270 0 0)  translate(${-height / 2 - 50}, ${-50})`">Number of comments</text>
+        </g>
       </g>
     </svg>
     <div v-if="tooltip" :style="`position: absolute; left: ${tooltip.x}px; top: ${tooltip.y}px;`" class="tooltip">
@@ -39,9 +47,10 @@
 <script>
 import { scaleLinear, scalePoint, scaleLog } from 'd3-scale'
 import { max } from 'd3-array'
-import { axisBottom } from 'd3-axis'
+import { axisBottom, axisLeft } from 'd3-axis'
 import { select } from 'd3-selection'
 import { timeMinute } from 'd3-time'
+import { format } from 'd3-format'
 import { secInDay, 
   daysInWeek, 
   getDayFromTimestamp,
@@ -61,24 +70,9 @@ export default {
         ? scalePoint().domain(daysInWeek).range([0, this.width])
         : scaleLinear().domain([0, secInDay]).range([0, this.width])
     },
-    points () {
-      const maxKarma = max(this.data, d => d.score)
+    yScale () {
       const maxComments = max(this.data, d => d.numComments)
-      const yScale = scaleLog().domain([1, maxComments]).range([0, this.height]).clamp(true)
-      const radiusScale = scaleLinear().domain([0, maxKarma]).range([3, 20])
-
-      return this.data.map(d => ({
-        r: radiusScale(d.score),
-        cx: this.setting === 'days'
-          ? this.xScale(daysInWeek[(new Date(d.timestamp * 1000).getDay())])
-          : this.xScale(d.timestamp % secInDay),
-        cy: this.height - yScale(d.numComments),
-        id: d.id,
-        day: daysInWeek[(new Date(d.timestamp * 1000).getDay())],
-        time: timestampToHr(d.timestamp % secInDay),
-        score: d.score,
-        comments: d.numComments
-      }))
+      return scaleLog().domain([1, maxComments]).range([this.height, 0]).clamp(true)
     },
     xAxis () {
       return this.setting === 'days'
@@ -88,6 +82,26 @@ export default {
           .scale(this.xScale)
           .tickFormat(timestampToHr)
           .tickValues([0, 3, 6, 9, 12, 15, 18, 21, 24].map(d => d * 3600))
+    },
+    yAxis () {
+      return axisLeft().scale(this.yScale).ticks(20, ",.1s")
+    },
+    points () {
+      const maxKarma = max(this.data, d => d.score)
+      const radiusScale = scaleLinear().domain([0, maxKarma]).range([3, 20])
+
+      return this.data.map(d => ({
+        r: radiusScale(d.score),
+        cx: this.setting === 'days'
+          ? this.xScale(daysInWeek[(new Date(d.timestamp * 1000).getDay())])
+          : this.xScale(d.timestamp % secInDay),
+        cy: this.yScale(d.numComments),
+        id: d.id,
+        day: daysInWeek[(new Date(d.timestamp * 1000).getDay())],
+        time: timestampToHr(d.timestamp % secInDay),
+        score: d.score,
+        comments: d.numComments
+      }))
     },
     outerWidth () {
       return this.padding * 2 + this.width
@@ -139,5 +153,9 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+}
+
+text {
+  font-weight: bold;
 }
 </style>

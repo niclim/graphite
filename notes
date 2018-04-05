@@ -1,5 +1,3 @@
-graphs: 2
-  add axis for wordfrequency and to posts vs time
 styling: 3
   make results page look nice
   make mobile responsive
@@ -7,5 +5,8 @@ functionality: 4
   add error handling for results page (no valid user, server error, network error (i.e. reddit is down))
 
 Extra features
+word composition of popular posts - mapped to subreddit
+comment length vs score
 add subreddit stuff
+  - same stuff as users but for subreddits
 add extra analysis to words based on other apis?
