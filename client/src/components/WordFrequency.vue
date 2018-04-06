@@ -12,12 +12,10 @@
           @mouseout="hideTooltip"
         />
         <g :transform="`translate(0, ${height})`">
-          <g
-            v-axis="xAxis"
-          />
+          <path :d="`M -10 0.5 l ${width + 10} 0`" style="stroke: black;"/>
           <text :transform="`translate(${width / 2 - 15}, 30)`">Words</text>
         </g>
-        <g :transform="`translate(0, 0)`">
+        <g :transform="`translate(-10, 0)`">
           <g
             v-axis="yAxis"
           />
