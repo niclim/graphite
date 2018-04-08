@@ -138,8 +138,17 @@ export default {
   },
   methods: {
     showTooltip (e, point) {
+      const maxXPos = window.innerWidth - e.relatedTarget.getBoundingClientRect().left
+      const calcX = point => point.cx + this.paddingLR + 2 * point.r + 5
+      const calcXInvert = point => point.cx + this.paddingLR - 220
+
+      // width is 200px and 10px padding (10px buffer)
+      const x = maxXPos > (calcX(point) + 200 + 20)
+        ? calcX(point)
+        : calcXInvert(point)
+
       this.tooltip = {
-        x: point.cx + this.paddingLR + 2 * point.r + 5,
+        x,
         y: point.cy + this.paddingTB - 40,
         time: point.time,
         day: point.day,

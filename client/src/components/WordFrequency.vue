@@ -23,7 +23,7 @@
         </g>
       </g>
     </svg>
-    <div v-if="tooltip" :style="`position: absolute; left: ${tooltip.x}px; top: ${tooltip.y}px;`" class="tooltip">
+    <div v-if="tooltip" :style="`position: absolute; ${tooltip.invert ? 'right' : 'left'}: ${tooltip.x}px; top: ${tooltip.y}px;`" class="tooltip">
       <p>{{tooltip.text}}</p>
     </div>
   </div>
@@ -91,10 +91,17 @@ export default {
   },
   methods: {
     showTooltip (e, point) {
+      const element = e.srcElement.nearestViewportElement
+      const maxXPos = window.innerWidth - element.getBoundingClientRect().left
+      const calcX = point => point.cx + this.paddingLR + 10
+      // width is 100px and 5px padding (5px buffer)
+      const invert = maxXPos < (calcX(point) + 100 + 10)
+
       this.tooltip = {
-        x: point.cx + this.paddingLR + 10,
+        x: invert ? (window.innerWidth - point.cx) : calcX(point),
         y: point.cy + this.paddingTB - 15,
-        text: `${point.word}: ${point.count}`
+        text: `${point.word}: ${point.count}`,
+        invert
       }
     },
     hideTooltip () {

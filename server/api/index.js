@@ -13,11 +13,11 @@ router.get('/reddit/:user', async (req, res) => {
   }
   try {
     const [ comments, subreddits, trophies ] = await Promise.all([
-      // getRedditComments(user, 'hot'),
       redditMockData('comments'),
       redditMockData('subreddits'),
-      // topSubreddits(user),
       redditMockData('trophies')
+      // getRedditComments(user, 'top'),
+      // topSubreddits(user),
       // userTrophies(user)
     ])
 

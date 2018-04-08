@@ -7,7 +7,6 @@
       <div v-else-if="!error && data" key="main">
         <h1>Results</h1>
         <p>User: {{$route.query.user}}</p>
-        <p>Data from the top 125 posts</p>
         <div class="information-container">
           <div class="summary">
             <div class="card">
@@ -72,6 +71,7 @@
           <div class="graphs">
             <div>
               <h2 class="graph-header">Word Frequency</h2>
+              <p class="small">(from the top 125 posts)</p>
               <word-frequency
                 :data="data.comments"
                 :width="700"
@@ -82,6 +82,7 @@
             </div>
             <div>
               <h2 class="graph-header">Posts vs Time</h2>
+              <p class="small">(from the top 125 posts)</p>
               <div class="toggle-time">
                 <span>24 Hours</span>
                 <at-switch v-model="postDay" @change="changeToggle" />
@@ -172,6 +173,7 @@ export default {
 .toggle-time {
   display: flex;
   justify-content: center;
+  margin: 10px;
 }
 
 .toggle-time span:not(.at-switch) {

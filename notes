@@ -3,8 +3,6 @@ styling: 3
     container for reddit information - make this a card or something
   results page:
     make mobile responsive
-    tooltip to go on right
-    update the text and information on details about graph
     update color scheme
     update desktop and mobile view for results - responsive container and graphs
     update the at-ui card to not have the hover thing and add material design like shadow
