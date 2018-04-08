@@ -1,5 +1,5 @@
 const express = require('express')
-const { getRedditComments, redditMockData } = require('../utils/reddit')
+const { getRedditComments, redditMockData, topSubreddits, userTrophies } = require('../utils/reddit')
 const { validateRedditUser } = require('../../common/validators')
 const router = express.Router()
 
@@ -12,11 +12,19 @@ router.get('/reddit/:user', async (req, res) => {
     })
   }
   try {
-    // const comments = await getRedditComments(user, 'hot')
-    const comments = await redditMockData()
+    const [ comments, subreddits, trophies ] = await Promise.all([
+      // getRedditComments(user, 'hot'),
+      redditMockData('comments'),
+      redditMockData('subreddits'),
+      // topSubreddits(user),
+      redditMockData('trophies')
+      // userTrophies(user)
+    ])
 
     res.json({
-      comments
+      comments,
+      subreddits,
+      trophies
     })
   } catch (e) {
     // send error no valid user

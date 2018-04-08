@@ -2,6 +2,7 @@ const axios = require('axios')
 const mock = require('./mockdata')
 const { withinTime } = require('../../common/time')
 
+const userAgent = 'node:graphite:v-0.0.1'
 const redditCache = {}
 
 // Clears out stale cache
@@ -63,20 +64,38 @@ const getRedditComments = (user, sort = 'hot') => {
   })
 }
 
-const redditHelper = (user, sort, after, i) => {
-  return axios({
-    method: 'get',
-    url: `https://www.reddit.com/user/${user}/comments.json?raw_json=1&sort=${sort}${after ? `&after=${after}` : ''}&count=${i * 25}`,
-    headers: {
-      'User-Agent': 'node:graphite:v-0.0.1'
-    }
-  })
-}
-const redditMockData = () => {
-  return Promise.resolve(mock.data)
+const topSubreddits = (user) => axios({
+  method: 'get',
+  url: `https://www.reddit.com/user/${user}/top_karma_subreddits.json?raw_json=1&limit=5`,
+  headers: {
+    'User-Agent': userAgent
+  }
+}).then(res => res.data.data)
+
+const userTrophies = (user) => axios({
+  method: 'get',
+  url: `https://www.reddit.com/user/${user}/trophies.json?raw_json=1`,
+  headers: {
+    'User-Agent': userAgent
+  }
+})
+  .then(res => res.data.data.trophies)
+  .then(trophies => trophies.slice(0, 5).map(trophy => trophy.data))
+
+const redditHelper = (user, sort, after, i) => axios({
+  method: 'get',
+  url: `https://www.reddit.com/user/${user}/comments.json?raw_json=1&sort=${sort}${after ? `&after=${after}` : ''}&count=${i * 25}`,
+  headers: {
+    'User-Agent': userAgent
+  }
+})
+const redditMockData = (key) => {
+  return Promise.resolve(mock[key])
 }
 
 module.exports = {
   getRedditComments,
-  redditMockData
+  redditMockData,
+  topSubreddits,
+  userTrophies
 }

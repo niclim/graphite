@@ -36,4 +36,8 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
+.small {
+  font-size: 10px;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="graph-container">
     <svg :width="outerWidth" :height="outerHeight">
-      <g :transform="`translate(${padding}, ${padding})`">
+      <g :transform="`translate(${paddingLR}, ${paddingTB})`">
         <circle
           v-for="point in points"
           :key="point.word"
@@ -83,17 +83,17 @@ export default {
       }))
     },
     outerWidth () {
-      return this.padding * 2 + this.width
+      return this.paddingLR * 2 + this.width
     },
     outerHeight () {
-      return this.padding * 2 + this.height
+      return this.paddingTB * 2 + this.height
     }
   },
   methods: {
     showTooltip (e, point) {
       this.tooltip = {
-        x: point.cx + this.padding + 10,
-        y: point.cy + this.padding - 15,
+        x: point.cx + this.paddingLR + 10,
+        y: point.cy + this.paddingTB - 15,
         text: `${point.word}: ${point.count}`
       }
     },
@@ -106,7 +106,7 @@ export default {
       select(el).call(binding.value)
     }
   },
-  props: ['data', 'width', 'height', 'padding']
+  props: ['data', 'width', 'height', 'paddingLR', 'paddingTB']
 }
 </script>
 

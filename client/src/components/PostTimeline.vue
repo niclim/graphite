@@ -1,7 +1,7 @@
 <template>
   <div class="graph-container">
     <svg :width="outerWidth" :height="outerHeight">
-      <g :transform="`translate(${padding}, ${padding})`">
+      <g :transform="`translate(${paddingLR}, ${paddingTB})`">
         <g>
           <circle
             v-for="point in interpolatedPoints"
@@ -130,17 +130,17 @@ export default {
       return interpolateObject(this.points.time, this.points.days)(this.interpolate)
     },
     outerWidth () {
-      return this.padding * 2 + this.width
+      return this.paddingLR * 2 + this.width
     },
     outerHeight () {
-      return this.padding * 2 + this.height
+      return this.paddingTB * 2 + this.height
     }
   },
   methods: {
     showTooltip (e, point) {
       this.tooltip = {
-        x: point.cx + this.padding + 2 * point.r + 5,
-        y: point.cy + this.padding - 40,
+        x: point.cx + this.paddingLR + 2 * point.r + 5,
+        y: point.cy + this.paddingTB - 40,
         time: point.time,
         day: point.day,
         score: point.score,
@@ -179,7 +179,7 @@ export default {
       requestAnimationFrame(this.calculateInterpolate)
     }
   },
-  props: ['data', 'width', 'height', 'padding', 'setting']
+  props: ['data', 'width', 'height', 'paddingTB', 'paddingLR', 'setting']
 }
 </script>
 
