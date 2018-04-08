@@ -10,7 +10,7 @@
         <div class="information-container">
           <div class="summary">
             <div class="card">
-              <at-card>
+              <at-card :no-hover="true" :bodyStyle="{ flexGrow: 1, display: 'flex', flexDirection: 'column' }">
                 <h4 slot="title">Active subreddits</h4>
                 <div class="card-content" v-if="data.subreddits.length > 0">
                   <div class="card-item" v-for="sub in data.subreddits" :key="sub.name">
@@ -41,25 +41,26 @@
               </at-card>
             </div>
             <div class="card">
-              <at-card>
+              <at-card :no-hover="true" :bodyStyle="{ flexGrow: 1, display: 'flex', flexDirection: 'column' }">
                 <h4 slot="title">Trophies</h4>
-                <div v-if="data.trophies && data.trophies.length > 0">
-                  <div class="card-content" v-if="data.trophies.length > 0">
-                    <div class="card-item" v-for="sub in data.trophies" :key="sub.name">
-                      <div class="card-item-icon">
-                        <div>
-                          <img
-                            :src="sub.icon_40"
-                            :alt="sub.name"
-                            width="40"
-                            height="40"
-                          />
-                        </div>
-                      </div>
-                      <div class="card-item-info">
-                        <p>{{sub.name}}</p>
+                <div class="card-content" v-if="data.trophies && data.trophies.length > 0">
+                  <div class="card-item" v-for="sub in data.trophies" :key="sub.name">
+                    <div class="card-item-icon">
+                      <div>
+                        <img
+                          :src="sub.icon_40"
+                          :alt="sub.name"
+                          width="40"
+                          height="40"
+                        />
                       </div>
                     </div>
+                    <div class="card-item-info">
+                      <p>{{sub.name}}</p>
+                    </div>
+                  </div>
+                  <div class="card-item bottom">
+                    <p>Link to thing</p>
                   </div>
                 </div>
                 <div v-else>
@@ -181,17 +182,18 @@ export default {
 }
 
 .summary {
+  padding: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
 .information-container {
-  padding: 10px;
+  padding: 20px 10px;
 }
 
 .graphs > div {
-  padding: 10px 0;
+  padding-top: 30px;
 }
 
 .graph-header {
@@ -204,6 +206,13 @@ export default {
   background-color: #79A1EB;
 }
 
+.at-card {
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .card {
   width: 350px;
 }
@@ -211,6 +220,7 @@ export default {
 .card-content {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .card-item {
@@ -218,6 +228,10 @@ export default {
   justify-content: space-around;
   align-items: center;
   margin: 10px 0;
+}
+
+.card-item.bottom {
+  margin-top: auto;
 }
 
 .card-item > div {
