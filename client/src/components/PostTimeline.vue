@@ -69,9 +69,6 @@ export default {
       transitionStart: null
     }
   },
-  // https://github.com/d3/d3-interpolate - use interpolations to create
-  // use x and y to calculate based on interpolated value
-  // variable to store current position
   computed: {
     dayXScale () {
       return scalePoint().domain(daysInWeek).range([0, this.width])

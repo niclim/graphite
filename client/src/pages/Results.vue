@@ -9,65 +9,45 @@
         <p>User: {{$route.query.user}}</p>
         <div class="information-container">
           <div class="summary">
-            <div class="card">
-              <at-card :no-hover="true" :bodyStyle="{ flexGrow: 1, display: 'flex', flexDirection: 'column' }">
-                <h4 slot="title">Active subreddits</h4>
-                <div class="card-content" v-if="data.subreddits.length > 0">
-                  <div class="card-item" v-for="sub in data.subreddits" :key="sub.name">
-                    <div class="card-item-icon">
-                      <a :href="`https://www.reddit.com${sub.url}`" target="_blank">
-                        <div>
-                          <img
-                            :src="sub.icon_img || '/static/img/snoo.png'"
-                            :alt="sub.url"
-                            width="40"
-                            height="40"
-                          />
-                        </div>
-                        <div>
-                          <p class="small">{{sub.url}}</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="card-item-info">
-                      <p class="small">{{sub.comment_karma}} comment karma</p>
-                      <p class="small">{{sub.link_karma}} link karma</p>
-                    </div>
+            <card :width="350">
+              <h4 slot="title">Active subreddits</h4>
+              <div class="card-content" v-if="data.subreddits.length > 0">
+                <card-item
+                  v-for="sub in data.subreddits"
+                  :key="sub.name"
+                  :icon="sub.icon_img || '/img/snoo.png'"
+                  :link="`https://www.reddit.com${sub.url}`"
+                  :text="sub.url"
+                >
+                  <div class="card-item-info">
+                    <p class="small">{{sub.comment_karma}} comment karma</p>
+                    <p class="small">{{sub.link_karma}} link karma</p>
                   </div>
-                </div>  
-                <div v-else>
-                  No active subreddits :(
-                </div>
-              </at-card>
-            </div>
-            <div class="card">
-              <at-card :no-hover="true" :bodyStyle="{ flexGrow: 1, display: 'flex', flexDirection: 'column' }">
-                <h4 slot="title">Trophies</h4>
-                <div class="card-content" v-if="data.trophies && data.trophies.length > 0">
-                  <div class="card-item" v-for="sub in data.trophies" :key="sub.name">
-                    <div class="card-item-icon">
-                      <div>
-                        <img
-                          :src="sub.icon_40"
-                          :alt="sub.name"
-                          width="40"
-                          height="40"
-                        />
-                      </div>
-                    </div>
-                    <div class="card-item-info">
-                      <p>{{sub.name}}</p>
-                    </div>
-                  </div>
-                  <div class="card-item bottom">
-                    <p>Link to thing</p>
-                  </div>
-                </div>
-                <div v-else>
-                  No trophies :(
-                </div>
-              </at-card>
-            </div>
+                </card-item>
+              </div>  
+              <div v-else>
+                No active subreddits :(
+              </div>
+            </card>
+            <card :width="350">
+              <h4 slot="title">Trophies</h4>
+              <div class="card-content" v-if="data.trophies && data.trophies.length > 0">
+                <card-item
+                  v-for="trophy in data.trophies"
+                  :key="trophy.name"
+                  :icon="trophy.icon_40"
+                  :link="null"
+                >
+                  <p>{{trophy.name}}</p>
+                </card-item>
+                <card-item :bottom="true" :noIcon="true">
+                  <p>Link to thing</p>
+                </card-item>
+              </div>
+              <div v-else>
+                No trophies :(
+              </div>
+            </card>
           </div>
           <div class="graphs">
             <div>
@@ -114,6 +94,8 @@ import { Switch as AtSwitch, Card as AtCard } from 'at-ui'
 import WordFrequency from '../components/WordFrequency'
 import PostTimeline from '../components/PostTimeline'
 import Loading from '../components/Loading'
+import Card from '../components/Card'
+import CardItem from '../components/CardItem'
 // This needs to handle error routing and stuff
 export default {
   name: 'results',
@@ -161,7 +143,8 @@ export default {
     PostTimeline,
     Loading,
     AtSwitch,
-    AtCard
+    Card,
+    CardItem
   }
 }
 </script>
@@ -206,45 +189,9 @@ export default {
   background-color: #79A1EB;
 }
 
-.at-card {
-  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.card {
-  width: 350px;
-}
-
 .card-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-}
-
-.card-item {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 10px 0;
-}
-
-.card-item.bottom {
-  margin-top: auto;
-}
-
-.card-item > div {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.card-item-icon {
-  width: 150px;
-}
-
-.card-item-info {
-  width: 120px;
 }
 </style>

@@ -1,12 +1,17 @@
 <template>
   <div class="page">
     <div class="reddit-container">
-      <h1>Enter a reddit username</h1>
-      <form @submit="submit">
-        <at-input type="text" v-model="input" @blur="blur" />
-        <at-button nativeType="submit">Lets go!</at-button>
-      </form>
-      <p class="error" v-if="touched && error">{{ error }}</p>
+      <div>
+        <img src="/img/reddit.png" alt="reddit logo" class="reddit-logo" />
+      </div>
+      <div class="form-container">
+        <h1>Enter a reddit username</h1>
+        <form @submit="submit">
+          <at-input type="text" v-model="input" @blur="blur" />
+          <at-button nativeType="submit">Lets go!</at-button>
+        </form>
+        <p class="error" v-if="touched && error">{{ error }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -65,10 +70,19 @@ export default {
 
 .reddit-container {
   display: flex;
+  width: 700px;
+}
+
+.reddit-logo {
+  width: 100px;
+  height: auto;
+}
+
+.form-container {
+  display: flex;
   margin: auto;
   justify-content: center;
   flex-direction: column;
-  width: 700px;
 }
 
 ul {
