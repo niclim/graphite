@@ -1,24 +1,25 @@
 <template>
   <div class="page">
-    <div class="reddit-container">
-      <div>
-        <img src="/img/reddit.png" alt="reddit logo" class="reddit-logo" />
-      </div>
+    <card :width="300">
       <div class="form-container">
+        <p><img src="/img/reddit.png" alt="reddit logo" class="reddit-logo" /></p>
         <h1>Enter a reddit username</h1>
-        <form @submit="submit">
-          <at-input type="text" v-model="input" @blur="blur" />
-          <at-button nativeType="submit">Lets go!</at-button>
-        </form>
-        <p class="error" v-if="touched && error">{{ error }}</p>
+        <div class="form">
+          <form @submit="submit">
+            <at-input type="text" v-model="input" @blur="blur" />
+            <at-button nativeType="submit">Lets go!</at-button>
+          </form>
+          <p class="error" v-if="touched && error">{{ error }}</p>
+        </div>
       </div>
-    </div>
+    </card>
   </div>
 </template>
 
 <script>
 import { Input as AtInput, Button as AtButton } from 'at-ui'
 import { validateRedditUser } from '../../../common/validators'
+import Card from '../components/Card'
 
 export default {
   name: 'HelloWorld',
@@ -58,7 +59,8 @@ export default {
   },
   components: {
     AtInput,
-    AtButton
+    AtButton,
+    Card
   }
 }
 </script>
@@ -81,8 +83,18 @@ export default {
 .form-container {
   display: flex;
   margin: auto;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
+  height: 250px;
+}
+
+.form {
+  height: 100px;
+  width: 250px;
+}
+
+.form > form > div {
+  margin: 5px 0px;
 }
 
 ul {

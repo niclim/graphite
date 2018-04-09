@@ -26,7 +26,7 @@
         <p class="small">{{text}}</p>
       </div>
     </div>
-    <div class="card-item-info">
+    <div :class="itemFull ? 'full' : 'card-item-info'">
       <slot></slot>
     </div>
   </div>
@@ -35,7 +35,7 @@
 <script>
 export default {
   name: 'cardItem',
-  props: ['icon', 'link', 'text', 'noIcon', 'bottom']
+  props: ['icon', 'link', 'text', 'noIcon', 'bottom', 'itemFull']
 }
 </script>
 
@@ -63,5 +63,9 @@ export default {
 
 .card-item-info {
   width: 120px;
+}
+
+.full {
+  width: 100%;
 }
 </style>

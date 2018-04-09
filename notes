@@ -1,11 +1,6 @@
 styling: 3
-  make intro page nice
-    container for reddit information - make this a card or something
-    add a picture
   results page:
-    make mobile responsive
     update color scheme
-    update desktop and mobile view for results - responsive container and graphs
 functionality: 4
   add error handling for results page (no valid user, server error, network error (i.e. reddit is down))
 

@@ -95,11 +95,17 @@ export default {
         .tickValues([0, 3, 6, 9, 12, 15, 18, 21, 24].map(d => d * 3600))
     },
     yAxis () {
-      return axisLeft().scale(this.yScale).ticks(20, ",.1s")
+      return axisLeft().scale(this.yScale).ticks(this.width > 400 ? 20 : 10, ",.1s")
+    },
+    radiusRange () {
+      // ranges of width is 320 -> 700
+      // we want to map this to 10 -> 20
+      const r1 = (this.width - 320)/(700 - 320) * (20 - 10) + 10
+      return [3, r1]
     },
     points () {
       const maxKarma = max(this.data, d => d.score)
-      const radiusScale = scaleLinear().domain([0, maxKarma]).range([3, 20])
+      const radiusScale = scaleLinear().domain([0, maxKarma]).range(this.radiusRange)
       const points = this.data.map(d => ({
         r: radiusScale(d.score),
         timestamp: d.timestamp,
@@ -175,7 +181,20 @@ export default {
   },
   directives: {
     axis (el, binding) {
-      select(el).call(binding.value)
+      const selection = select(el).call(binding.value)
+      if (window.innerWidth < 500 && binding.expression === 'xAxis') {
+        selection
+          .selectAll('text')
+          .attr('dx', '-22px')
+          .attr('dy', '6px')
+          .attr('transform', 'rotate(-35)')
+      } else {
+        selection
+          .selectAll('text')
+          .attr('dx', '')
+          .attr('dy', '0.71em')
+          .attr('transform', '')
+      }
     }
   },
   watch: {
