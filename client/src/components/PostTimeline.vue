@@ -23,7 +23,7 @@
           <g
             v-axis="yAxis"
           />
-          <text :transform="`rotate(270 0 0)  translate(${-height / 2 - 50}, ${-50})`">Number of comments</text>
+          <text :transform="`rotate(270 0 0)  translate(${-height / 2 - 100}, ${-50})`">Number of comments in thread</text>
         </g>
       </g>
     </svg>

@@ -1,5 +1,5 @@
 const express = require('express')
-const { getRedditComments, redditMockData, topSubreddits, userTrophies } = require('../utils/reddit')
+const { getRedditComments, topSubreddits, userTrophies } = require('../utils/reddit')
 const { validateRedditUser } = require('../../common/validators')
 const router = express.Router()
 
@@ -8,29 +8,32 @@ router.get('/reddit/:user', async (req, res) => {
   if (!validateRedditUser(user)) {
     // Send error - not a valid reddit user
     res.json({
-
+      status: 404,
+      error: 'No user found'
     })
   }
   try {
     const [ comments, subreddits, trophies ] = await Promise.all([
-      redditMockData('comments'),
-      redditMockData('subreddits'),
-      redditMockData('trophies')
-      // getRedditComments(user, 'top'),
-      // topSubreddits(user),
-      // userTrophies(user)
+      getRedditComments(user, 'top'),
+      topSubreddits(user),
+      userTrophies(user)
     ])
 
-    res.json({
+    res.status(200).json({
       comments,
       subreddits,
       trophies
     })
   } catch (e) {
-    // send error no valid user
-    res.json({
-
-    })
+    if (e.response.statusText === 'Not Found') {
+      res.status(200).json({
+        error: 'User not found'
+      })
+    } else {
+      res.status(404).json({
+        error: 'Error retreiving data'
+      })
+    }
   }
 })
 /**

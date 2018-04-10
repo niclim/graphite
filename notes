@@ -1,12 +1,7 @@
-styling: 3
-  results page:
-    update color scheme
-functionality: 4
-  add error handling for results page (no valid user, server error, network error (i.e. reddit is down))
-
 Extra features
 word composition of popular posts - mapped to subreddit
 comment length vs score
 add subreddit stuff
   - same stuff as users but for subreddits
 add extra analysis to words based on other apis?
+pull graphs out into a more generic graph component

@@ -12,7 +12,7 @@ const timestampToHr = t => {
 
 const withinTime = (timestamp, withinTime) => {
   const currentTime = Date.now()
-  return currentTime - timestamp > withinTime
+  return currentTime - timestamp < withinTime
 }
 
 module.exports = {

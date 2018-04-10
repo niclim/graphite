@@ -24,14 +24,14 @@
                   <p class="small">{{sub.link_karma}} link karma</p>
                 </div>
               </card-item>
-              <div v-else>
+              <div v-if="data.subreddits.length === 0" class="no-results">
                 No active subreddits :(
               </div>
             </card>
             <card :width="cardWidth">
               <h4 slot="title">Trophies</h4>
               <card-item
-                v-if="data.trophies && data.trophies.length > 0"
+                v-if="data.trophies.length > 0"
                 v-for="trophy in data.trophies"
                 :key="trophy.name"
                 :icon="trophy.icon_40"
@@ -47,12 +47,12 @@
               >
                 <p><a href="https://www.reddit.com/wiki/awards" target="_blank">What other trophies are there?</a></p>
               </card-item>
-              <div v-else>
+              <div v-if="data.trophies.length === 0" class="no-results">
                 No trophies :(
               </div>
             </card>
           </div>
-          <div class="graphs">
+          <div class="graphs" v-if="data.comments.length > 0">
             <div>
               <h2 class="graph-header">Word Frequency</h2>
               <p class="small">(from the top 125 posts)</p>
@@ -84,10 +84,13 @@
               />
             </div>
           </div>
+          <div class="no-posts" v-else>
+            <p>Looks like this user hasn't posted anything - nothing to see here</p>
+          </div>
         </div>
       </div>
       <div v-else key="error">
-        place error component here
+        <error :message="error" />
       </div>
     </transition>
   </div>
@@ -99,18 +102,18 @@ import { Switch as AtSwitch, Card as AtCard } from 'at-ui'
 import WordFrequency from '../components/WordFrequency'
 import PostTimeline from '../components/PostTimeline'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 import Card from '../components/Card'
 import CardItem from '../components/CardItem'
 import { debounce } from '../../../common/functional'
-// This needs to handle error routing and stuff
+
 export default {
   name: 'results',
   mounted () {
     if (this.$route.query.user) {
       this.fetchResults()
     } else {
-      // This should actually be a different error message
-      this.error = 'No user found'
+      this.error = `${this.$route.query.user} not found!`
     }
     this.resizer = debounce(this.recalculateDimesions, 100)
     window.addEventListener('resize', this.resizer)
@@ -138,9 +141,18 @@ export default {
   },
   methods: {
     async fetchResults () {
-      const { data } = await fetchRedditUserData(this.$route.query.user)
-      this.data = data
-      this.loading = false
+      try {
+        const { data } = await fetchRedditUserData(this.$route.query.user)
+        this.loading = false
+        if (data.error) {
+          this.error = data.error
+        } else {
+          this.data = data
+        }
+      } catch (e) {
+        this.loading = false
+        this.error = 'Something went wrong, please try again later'
+      }
     },
     changeToggle () {
       // This component doesn't handle v-model correctly?
@@ -175,6 +187,7 @@ export default {
     WordFrequency,
     PostTimeline,
     Loading,
+    Error,
     AtSwitch,
     Card,
     CardItem
@@ -200,6 +213,10 @@ export default {
   margin: 10px;
 }
 
+.no-results {
+  margin: auto;
+}
+
 .toggle-time span:not(.at-switch) {
   width: 150px;
 }
@@ -214,6 +231,10 @@ export default {
 
 .information-container {
   padding: 20px 10px;
+}
+
+.no-posts {
+  padding: 30px;
 }
 
 .graphs > div {
