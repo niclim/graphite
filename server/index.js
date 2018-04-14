@@ -19,7 +19,7 @@ app
 
 app
   .get('*', (req, res) => {
-    res.sendFile(staticPath)
+    res.sendFile(`${staticPath}/index.html`)
   })
 
 app.listen(PORT, () => {
