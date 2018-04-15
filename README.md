@@ -1,5 +1,5 @@
 # graphite
-Graphs word data from reddit built using Vue.js and express. See the live site [here](https://graph-ite.tk/)
+Graphs word data from reddit built using Vue.js, d3 and express. See the live site [here](https://graph-ite.tk/)
 
 ## Current features
 Reads data from:
