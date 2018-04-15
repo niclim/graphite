@@ -1,7 +1,7 @@
 const axios = require('axios')
 const { withinTime } = require('../../common/time')
 
-const userAgent = 'node:graphite:v-0.0.1'
+const userAgent = 'node:graphite:v-1.0.0'
 const commentCache = {}
 const trophyCache = {}
 const subredditCache = {}
