@@ -10,7 +10,7 @@
     "build": "cd client && yarn run build",
     "build:dev": "cd client && yarn run dev",
     "lint": "standard --fix | snazzy || true",
-    "start": "npm run build; npm run server"
+    "start": "yarn run build; yarn run server"
   },
   "dependencies": {
     "axios": "^0.18.0",
