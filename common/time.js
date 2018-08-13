@@ -1,6 +1,7 @@
 const secInDay = 86400
 const daysInWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
+// incoming timestamp from server
 const getDayFromTimestamp = timestamp => (new Date(timestamp * 1000).getDay() + 6) % 7
 
 const timestampToHr = t => {
