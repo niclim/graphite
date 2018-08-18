@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack -w --config build/webpack.dev.conf.js",
     "start": "yarn run dev",
-    "unit": "jest --config test/unit/jest.conf.js --coverage",
+    "unit": "jest --config test/unit/jest.conf.js --transformIgnorePatterns '/node_modules/(?!vue-loading-spinner)'",
     "test": "yarn run unit",
     "build": "node build/build.js"
   },

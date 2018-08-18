@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <card :width="300">
-      <div class="form-container">
+      <div class="form-container" data-testid="reddit-username">
         <p><img src="/img/reddit.png" alt="reddit logo" class="reddit-logo" /></p>
         <h1>Enter a reddit username</h1>
         <div class="form">
@@ -18,8 +18,8 @@
 
 <script>
 import { Input as AtInput, Button as AtButton } from 'at-ui'
-import { validateRedditUser } from '../../../common/validators'
-import Card from '../components/Card'
+import { validateRedditUser } from '../../../../common/validators'
+import Card from '../../components/Card'
 
 export default {
   name: 'HelloWorld',

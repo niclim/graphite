@@ -97,15 +97,15 @@
 </template>
 
 <script>
-import { fetchRedditUserData } from '../api'
+import { fetchRedditUserData } from '../../api'
 import { Switch as AtSwitch, Card as AtCard } from 'at-ui'
-import WordFrequency from '../components/WordFrequency'
-import PostTimeline from '../components/PostTimeline'
-import Loading from '../components/Loading'
-import Error from '../components/Error'
-import Card from '../components/Card'
-import CardItem from '../components/CardItem'
-import { debounce } from '../../../common/functional'
+import WordFrequency from '../../components/WordFrequency'
+import PostTimeline from '../../components/PostTimeline'
+import Loading from '../../components/Loading'
+import Error from '../../components/Error'
+import Card from '../../components/Card'
+import CardItem from '../../components/CardItem'
+import { debounce } from '../../../../common/functional'
 
 export default {
   name: 'results',
