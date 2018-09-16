@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Circle8 } from 'vue-loading-spinner'
+import Circle8 from 'vue-loading-spinner/src/components/Circle8.vue'
 
 export default {
   name: 'loading',

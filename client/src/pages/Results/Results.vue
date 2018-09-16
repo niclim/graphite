@@ -9,7 +9,7 @@
         <p>User: {{$route.query.user}}</p>
         <div class="information-container">
           <div class="summary">
-            <card :width="cardWidth">
+            <card :width="cardWidth" data-qa="subreddits">
               <h4 slot="title">Active subreddits</h4>
               <card-item
                 v-if="data.subreddits.length > 0"
@@ -28,7 +28,7 @@
                 No active subreddits :(
               </div>
             </card>
-            <card :width="cardWidth">
+            <card :width="cardWidth" data-qa="trophies">
               <h4 slot="title">Trophies</h4>
               <card-item
                 v-if="data.trophies.length > 0"
@@ -53,7 +53,7 @@
             </card>
           </div>
           <div class="graphs" v-if="data.comments.length > 0">
-            <div>
+            <div data-qa="word-frequency">
               <h2 class="graph-header">Word Frequency</h2>
               <p class="small">(from the top 125 posts)</p>
               <word-frequency
@@ -65,7 +65,7 @@
                 :paddingLR="graphPaddingLR"
               />
             </div>
-            <div>
+            <div data-qa="posts-vs-time">
               <h2 class="graph-header">Posts vs Time</h2>
               <p class="small">(from the top 125 posts)</p>
               <div class="toggle-time">

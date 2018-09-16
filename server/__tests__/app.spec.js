@@ -35,7 +35,7 @@ describe('app', () => {
           })
       })
 
-      test('returns a 404 if user is not found', async done => {
+      test('returns a 404 if user is not found', done => {
         request(app)
           .get('/api/reddit/cd')
           .set('content-type', 'application/json')
